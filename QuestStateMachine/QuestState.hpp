@@ -8,6 +8,7 @@ public:
     virtual void OnEnter ();
     virtual void OnUpdate (float timeStep) = 0;
     virtual void OnExit ();
+    virtual void Reset ();
 
     int GetStateCode () const;
     const std::string &GetInfo () const;

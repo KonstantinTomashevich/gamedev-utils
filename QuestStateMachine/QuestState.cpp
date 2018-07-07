@@ -7,6 +7,11 @@ void QuestState::OnEnter ()
 
 void QuestState::OnExit ()
 {
+    Reset ();
+}
+
+void QuestState::Reset ()
+{
     mustExit_ = false;
 }
 
