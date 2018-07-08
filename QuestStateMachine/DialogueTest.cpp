@@ -1,4 +1,5 @@
 #include <functional>
+#include <climits>
 #include <UniversalException/CustomTerminate.hpp>
 #include <QuestStateMachine/QuestState.hpp>
 #include <QuestStateMachine/QuestStateMachine.hpp>
