@@ -16,7 +16,10 @@ public:
 
     }
 
-    virtual ~DialogueState () = default;
+    virtual ~DialogueState ()
+    {
+        std::cout << "State " << GetStateCode () << " deleted!" << std::endl;
+    }
 
     virtual void OnEnter ()
     {

@@ -36,6 +36,7 @@ int QuestState::GetNextStateCode () const
 }
 
 QuestState::QuestState (int stateCode, const std::string &info) :
+    ReferenceCounted (),
     stateCode_ (stateCode),
     info_ (info),
     mustExit_ (false),

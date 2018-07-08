@@ -8,14 +8,6 @@ QuestStateMachine::QuestStateMachine () :
 
 }
 
-QuestStateMachine::~QuestStateMachine ()
-{
-    for (auto &keyValuePair : states_)
-    {
-        delete keyValuePair.second;
-    }
-}
-
 void QuestStateMachine::Start (int startStateCode)
 {
     ThrowExceptionIfLocked ();
@@ -66,7 +58,7 @@ QuestState *QuestStateMachine::GetState (int stateCode) const
                         std::to_string (stateCode) + std::string ("!"));
     }
 
-    return iterator->second;
+    return iterator->second.Get ();
 }
 
 void QuestStateMachine::AddState (QuestState *state)
@@ -76,6 +68,8 @@ void QuestStateMachine::AddState (QuestState *state)
 
     if (iterator == states_.end ())
     {
+        // unordered_map operates with objects in a "so dirty" way, so we must increment ref counter.
+        state->AddReference ();
         states_[state->GetStateCode ()] = state;
     }
     else
@@ -93,7 +87,7 @@ bool QuestStateMachine::RemoveState (QuestState *state)
 
     if (iterator != states_.end ())
     {
-        if (iterator->second != state)
+        if (iterator->second.Get () != state)
         {
             throw UniversalException <QuestStateMachine::StateCodesCollision> (
                     std::string ("QuestStateMachine: state with another memory address exists under state code") +

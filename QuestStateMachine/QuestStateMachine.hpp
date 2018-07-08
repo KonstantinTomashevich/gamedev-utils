@@ -1,5 +1,6 @@
 #include "QuestState.hpp"
 #include <unordered_map>
+#include <SharedPointer/SharedPointer.hpp>
 
 class QuestStateMachine
 {
@@ -7,7 +8,7 @@ public:
     static const int EXIT_CODE = -1;
     
     QuestStateMachine ();
-    virtual ~QuestStateMachine ();
+    virtual ~QuestStateMachine () = default;
 
     void Start (int startStateCode);
     void Update (float timeStep);
@@ -28,5 +29,5 @@ private:
     void ThrowExceptionIfNotLocked () const;
 
     QuestState *current_;
-    std::unordered_map <int, QuestState *> states_;
+    std::unordered_map <int, SharedPointer <QuestState> > states_;
 };

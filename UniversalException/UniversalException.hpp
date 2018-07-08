@@ -13,7 +13,8 @@ private:
     std::string exception_;
 };
 
-template <class T> class UniversalException : public AnyUniversalException
+template <class T>
+class UniversalException : public AnyUniversalException
 {
 public:
     explicit UniversalException (const std::string &exception) noexcept : AnyUniversalException (exception) {}

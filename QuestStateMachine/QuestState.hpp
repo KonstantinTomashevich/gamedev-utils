@@ -1,7 +1,8 @@
 #pragma once
 #include <string>
+#include <SharedPointer/ReferenceCounted.hpp>
 
-class QuestState
+class QuestState : public ReferenceCounted
 {
 public:
     virtual ~QuestState () = default;
