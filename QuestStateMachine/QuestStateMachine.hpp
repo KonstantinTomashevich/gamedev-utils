@@ -4,6 +4,8 @@
 class QuestStateMachine
 {
 public:
+    static const int EXIT_CODE = -1;
+    
     QuestStateMachine ();
     virtual ~QuestStateMachine ();
 

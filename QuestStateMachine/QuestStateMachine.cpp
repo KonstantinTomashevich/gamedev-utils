@@ -29,6 +29,12 @@ void QuestStateMachine::Update (float timeStep)
     while (current_->IsMustExit ())
     {
         current_->OnExit ();
+        if (current_->GetNextStateCode () == EXIT_CODE)
+        {
+            ResetStates ();
+            return;
+        }
+        
         current_ = GetState (current_->GetNextStateCode ());
         current_->OnEnter ();
     }
