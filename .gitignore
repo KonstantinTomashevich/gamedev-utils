@@ -33,3 +33,7 @@
 
 # CLion
 .idea
+
+# Urho3D
+urho3d-cmake
+CoreData
