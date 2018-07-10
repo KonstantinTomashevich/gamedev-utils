@@ -17,6 +17,7 @@ cmake_dependent_option (IncludeUrho3DUIResizerComponent
 
 cmake_dependent_option (IncludeUrho3DActivitiesApplication
         "Include Urho3DActivitiesApplication util." ON "EnableUrho3DUtils" OFF)
+option (IncludeGraphPathfinding "Include GraphPathfinding util." ON)
 
 if (EnableUrho3DUtils)
     # Copy Urho3D CMake modules.
@@ -65,4 +66,8 @@ endif ()
 
 if (IncludeUrho3DActivitiesApplication)
     add_subdirectory (Urho3DActivitiesApplication)
+endif ()
+
+if (IncludeGraphPathfinding)
+    add_subdirectory (GraphPathfinding)
 endif ()
