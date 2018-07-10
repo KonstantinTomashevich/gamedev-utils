@@ -8,8 +8,12 @@ enable_testing ()
 option (EnableUrho3DUtils "Use Urho3D binaries from URHO3D_HOME environment variable." ON)
 option (IncludeUniversalException "Include UniversalException util." ON)
 option (IncludeSharedPointer "Include SharedPointer util." ON)
+
 cmake_dependent_option (IncludeQuestStateMachine
         "Include QuestStateMachine util." ON "IncludeUniversalException;IncludeSharedPointer" OFF)
+
+cmake_dependent_option (IncludeUrho3DUIResizerComponent
+        "Include Urho3DUIResizerComponent util." ON "EnableUrho3DUtils" OFF)
 
 if (EnableUrho3DUtils)
     # Copy Urho3D CMake modules.
@@ -50,4 +54,8 @@ endif ()
 
 if (IncludeSharedPointer)
     add_subdirectory (SharedPointer)
+endif ()
+
+if (IncludeUrho3DUIResizerComponent)
+    add_subdirectory (Urho3DUIResizerComponent)
 endif ()
