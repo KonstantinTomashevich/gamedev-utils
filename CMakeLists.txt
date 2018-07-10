@@ -15,6 +15,9 @@ cmake_dependent_option (IncludeQuestStateMachine
 cmake_dependent_option (IncludeUrho3DUIResizerComponent
         "Include Urho3DUIResizerComponent util." ON "EnableUrho3DUtils" OFF)
 
+cmake_dependent_option (IncludeUrho3DActivitiesApplication
+        "Include Urho3DActivitiesApplication util." ON "EnableUrho3DUtils" OFF)
+
 if (EnableUrho3DUtils)
     # Copy Urho3D CMake modules.
     if (NOT CMAKE_MODULE_PATH)
@@ -58,4 +61,8 @@ endif ()
 
 if (IncludeUrho3DUIResizerComponent)
     add_subdirectory (Urho3DUIResizerComponent)
+endif ()
+
+if (IncludeUrho3DActivitiesApplication)
+    add_subdirectory (Urho3DActivitiesApplication)
 endif ()
