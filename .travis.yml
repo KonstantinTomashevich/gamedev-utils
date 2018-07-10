@@ -2,5 +2,27 @@ language: cpp
 compiler:
   - clang
   - gcc
+
+dist: trusty
+sudo: required
+
+before_install:
+- sudo apt-get -qq update
+- sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+- sudo apt-get update -q
+- sudo apt-get install -y gcc-6
+- sudo apt-get install -y g++-6
+
+before_script:
+- "export DISPLAY=:99.0"
+- "sh -e /etc/init.d/xvfb start"
+- sleep 3
+- "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16"
+- export CC=gcc-6
+- export CXX=g++-6
+- wget https://cmake.org/files/v3.8/cmake-3.8.1-Linux-x86_64.tar.gz -O CMake.tar.gz --no-check-certificate && tar -xvf CMake.tar.gz && export CMake=$PWD/cmake-3.8.1-Linux-x86_64/bin/cmake
+- git clone https://github.com/urho3d/Urho3D.git && cd Urho3D && mkdir Build && cd Build && ${CMake} .. -DCMAKE_INSTALL_PREFIX=SDK -DURHO3D_TOOLS=0 -DURHO3D_SAMPLES=0 && make && make install && export URHO3D_HOME=$PWD/SDK && cd .. && cd ..
+
 script:
 - mkdir build && cd build && cmake .. && cmake --build . --target all && ctest
+- echo "Testing log:" && cat "Testing/Temporary/LastTest.log"
