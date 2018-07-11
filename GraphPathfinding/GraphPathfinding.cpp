@@ -3,12 +3,12 @@
 #include <queue>
 
 typedef std::pair <int, std::pair <int, float> > QueueData; // vertex : (comeFromVertex, cost)
-class LessComparator
+class GreaterComparator
 {
 public:
     bool operator () (const QueueData &first, const QueueData &second) const
     {
-        return first.second.second < second.second.second;
+        return first.second.second > second.second.second;
     }
 };
 
@@ -16,7 +16,7 @@ bool GraphPathfinding::Dijkstra (GraphAdapter *graph, int beginVertex, int endVe
         std::vector <int> &outputPath)
 {
     std::unordered_map <int, int> comeFrom;
-    std::priority_queue <QueueData, std::vector <QueueData>, LessComparator> queue;
+    std::priority_queue <QueueData, std::vector <QueueData>, GreaterComparator> queue;
     queue.push (std::make_pair (beginVertex, std::make_pair (beginVertex, 0.0f)));
 
     while (!queue.empty ())
@@ -24,7 +24,7 @@ bool GraphPathfinding::Dijkstra (GraphAdapter *graph, int beginVertex, int endVe
         int vertex = queue.top ().first;
         int comeFromVertex = queue.top ().second.first;
         float cost = queue.top ().second.second;
-        queue.top ();
+        queue.pop ();
 
         if (vertex == endVertex)
         {
@@ -32,9 +32,10 @@ bool GraphPathfinding::Dijkstra (GraphAdapter *graph, int beginVertex, int endVe
             reversedPath.push_back (vertex);
             auto comeFromIterator = comeFrom.find (comeFromVertex);
 
-            while (comeFromIterator->second != beginVertex)
+            while (comeFromIterator->first != beginVertex)
             {
                 reversedPath.push_back (comeFromIterator->first);
+                comeFromIterator = comeFrom.find (comeFromIterator->second);
             }
 
             reversedPath.push_back (beginVertex);
@@ -74,15 +75,18 @@ bool GraphPathfinding::AStar (GraphAdapter *graph, int beginVertex, int endVerte
         std::vector <int> &outputPath)
 {
     std::unordered_map <int, std::pair <int, float> > comeFrom; // vertex : (comeFromVertex, cost)
-    std::priority_queue <QueueData, std::vector <QueueData>, LessComparator> queue;
+    std::priority_queue <QueueData, std::vector <QueueData>, GreaterComparator> queue;
+
     queue.push (std::make_pair (beginVertex, std::make_pair (beginVertex, 0.0f)));
+    comeFrom [beginVertex].first = beginVertex;
+    comeFrom [beginVertex].second = 0.0f;
 
     while (!queue.empty ())
     {
         int vertex = queue.top ().first;
         int comeFromVertex = queue.top ().second.first;
         float priority = queue.top ().second.second;
-        queue.top ();
+        queue.pop ();
 
         if (vertex == endVertex)
         {
@@ -90,9 +94,10 @@ bool GraphPathfinding::AStar (GraphAdapter *graph, int beginVertex, int endVerte
             auto comeFromIterator = comeFrom.find (vertex);
             outputDistance = comeFromIterator->second.second;
 
-            while (comeFromIterator->second.first != beginVertex)
+            while (comeFromIterator->first != beginVertex)
             {
                 reversedPath.push_back (comeFromIterator->first);
+                comeFromIterator = comeFrom.find (comeFromIterator->second.first);
             }
 
             reversedPath.push_back (beginVertex);
