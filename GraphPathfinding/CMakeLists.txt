@@ -1,1 +1,3 @@
 add_library (GraphPathfinding GraphAdapter.hpp GraphPathfinding.cpp GraphPathfinding.hpp)
+add_executable (TestGraphPathfinding TestGraphPathfinding.cpp)
+target_link_libraries (TestGraphPathfinding GraphPathfinding)
