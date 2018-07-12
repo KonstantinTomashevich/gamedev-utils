@@ -22,6 +22,9 @@ option (IncludeGraphPathfinding "Include GraphPathfinding util." ON)
 cmake_dependent_option (IncludeHexagonalGrids
         "Include HexagonalGrids util." ON "IncludeGraphPathfinding;IncludeSharedPointer;IncludeUniversalException" OFF)
 
+cmake_dependent_option (IncludeUrho3DDebugCamera
+        "Include Urho3DDebugCamera util." ON "EnableUrho3DUtils" OFF)
+
 if (EnableUrho3DUtils)
     # Copy Urho3D CMake modules.
     if (NOT CMAKE_MODULE_PATH)
@@ -77,4 +80,8 @@ endif ()
 
 if (IncludeHexagonalGrids)
     add_subdirectory (HexagonalGrids)
+endif ()
+
+if (IncludeUrho3DDebugCamera)
+    add_subdirectory (Urho3DDebugCamera)
 endif ()
