@@ -48,7 +48,7 @@ VertexOutcomingConnection DoubledCoordsHexGrid::DoubledCoordsHexGridNeighborsIte
         unsigned int currentHash = ownerGrid_->EncodeCellPosition (currentRow_, currentCol_);
         unsigned int newHash = ownerGrid_->EncodeCellPosition (newRow, newCol);
 
-        return {newHash, ownerGrid_->GetCostBetween (currentHash, newHash)};
+        return {(int) newHash, ownerGrid_->GetCostBetween (currentHash, newHash)};
     }
     catch (std::out_of_range &exception)
     {
@@ -180,18 +180,18 @@ float DoubledCoordsHexGrid::GetHexRadius () const
 std::pair <float, float> DoubledCoordsHexGrid::GetCellPosition (unsigned int row, unsigned int col) const
 {
     float x, y;
-    float w = type_ == Type::DoubleWidth ? hexRadius_ * (float) std::sqrt (3) / 2.0f : hexRadius_ * 2.0f;
-    float h = type_ == Type::DoubleHeight ? hexRadius_ * (float) std::sqrt (3) / 2.0f : hexRadius_ * 2.0f;
+    float w = type_ == Type::DoubleWidth ? hexRadius_ * (float) std::sqrt (3) : hexRadius_ * 2.0f;
+    float h = type_ == Type::DoubleHeight ? hexRadius_ * (float) std::sqrt (3) : hexRadius_ * 2.0f;
 
     if (type_ == Type::DoubleWidth)
     {
-        x = w / 2.0f + w * col / 2.0f + w * (row % 2) / 2.0f;
+        x = w / 2.0f + w * col / 2.0f;
         y = hexRadius_ + h * row * 3.0f / 4.0f;
     }
     else
     {
         x = hexRadius_ + w * row * 3.0f / 4.0f;
-        y = h / 2.0f + h * row / 2.0f + h * (col % 2) / 2.0f;
+        y = h / 2.0f + h * row / 2.0f;
     }
 
     return std::make_pair (x, y);

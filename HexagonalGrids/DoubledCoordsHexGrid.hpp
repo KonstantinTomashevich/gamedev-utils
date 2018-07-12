@@ -43,6 +43,7 @@ public:
 
     DoubledCoordsHexGrid (Type type, unsigned int maxRow, unsigned int maxCol, float hexRadius,
             const CostCalculator &costCalculator = MedianCostCalculator);
+    virtual ~DoubledCoordsHexGrid () = default;
 
     virtual SimpleIterator <VertexOutcomingConnection> *GetOutcomingConnections (int vertex) const;
     virtual float HeuristicDistance (int beginVertex, int endVertex) const;
