@@ -30,6 +30,7 @@ void Urho3DHexagonalGrid::Setup ()
     engineParameters_[Urho3D::EP_FULL_SCREEN] = false;
     engineParameters_[Urho3D::EP_LOG_NAME] = "Urho3DHexagonalGrid.log";
     engineParameters_[Urho3D::EP_WINDOW_TITLE] = "Urho3D Hexagonal Grid";
+    engineParameters_[Urho3D::EP_WINDOW_RESIZABLE] = true;
 }
 
 void Urho3DHexagonalGrid::Start ()
@@ -58,7 +59,8 @@ void Urho3DHexagonalGrid::SetupLight ()
 {
     scene_->CreateComponent <Urho3D::Octree> ();
     Urho3D::Node *lightNode = scene_->CreateChild ("Light");
-    lightNode->Pitch (60.0f);
+    lightNode->Pitch (60.0f, Urho3D::TS_WORLD);
+    lightNode->Yaw (30.0f, Urho3D::TS_WORLD);
 
     auto *light = lightNode->CreateComponent <Urho3D::Light> ();
     light->SetLightType (Urho3D::LIGHT_DIRECTIONAL);
