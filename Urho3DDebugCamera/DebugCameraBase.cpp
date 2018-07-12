@@ -4,10 +4,9 @@
 #include <Urho3D/Graphics/Camera.h>
 
 #include <Urho3D/Graphics/Graphics.h>
-#include <Urho3D/Graphics/Octree.h>
-
 #include <Urho3D/Scene/Scene.h>
 #include <Urho3D/Scene/SceneEvents.h>
+#include <UniversalException/UniversalException.hpp>
 
 DebugCameraBase::DebugCameraBase (Urho3D::Context *context) :
         Urho3D::Object (context),
@@ -34,11 +33,12 @@ Urho3D::Node *DebugCameraBase::GetCameraNode () const
     return cameraNode_;
 }
 
-Urho3D::Node *DebugCameraBase::RaycastNode (int screenX, int screenY)
+Urho3D::RayQueryResult DebugCameraBase::RaycastSingle (int screenX, int screenY) const
 {
     if (cameraNode_ == nullptr)
     {
-        return nullptr;
+        throw UniversalException <DebugCameraBase::CameraNotFound> (
+                "DebugCameraBase: camera node is null, can not raycast!");
     }
 
     auto *graphics = context_->GetSubsystem <Urho3D::Graphics> ();
@@ -51,11 +51,10 @@ Urho3D::Node *DebugCameraBase::RaycastNode (int screenX, int screenY)
 
     auto *octree = camera->GetScene ()->GetComponent <Urho3D::Octree> ();
     octree->RaycastSingle (query);
+    return queryResult[0];
+}
 
-    if (queryResult.Empty ())
-    {
-        return nullptr;
-    }
-
-    return queryResult.At (0).node_;
+Urho3D::Node *DebugCameraBase::RaycastNode (int screenX, int screenY) const
+{
+    return RaycastSingle (screenX, screenY).node_;
 }

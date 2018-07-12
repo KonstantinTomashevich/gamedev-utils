@@ -1,6 +1,7 @@
 #pragma once
 #include <Urho3D/Core/Context.h>
 #include <Urho3D/Scene/Node.h>
+#include <Urho3D/Graphics/Octree.h>
 
 class DebugCameraBase : public Urho3D::Object
 {
@@ -11,7 +12,11 @@ public:
 
     void SetupCamera (Urho3D::Node *cameraNode);
     Urho3D::Node *GetCameraNode () const;
-    Urho3D::Node *RaycastNode (int screenX, int screenY);
+    Urho3D::RayQueryResult RaycastSingle (int screenX, int screenY) const;
+    Urho3D::Node *RaycastNode (int screenX, int screenY) const;
+
+    // Exception classes.
+    class CameraNotFound;
 
 protected:
     virtual void HandleSceneUpdate (Urho3D::StringHash eventType, Urho3D::VariantMap &eventData) = 0;
