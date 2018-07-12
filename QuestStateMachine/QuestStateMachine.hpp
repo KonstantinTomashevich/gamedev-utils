@@ -11,6 +11,8 @@ public:
     virtual ~QuestStateMachine () = default;
 
     void Start (int startStateCode);
+    void Resume (int stateCode);
+
     void Update (float timeStep);
     void ResetStates ();
 
@@ -19,6 +21,7 @@ public:
 
     void AddState (QuestState *state);
     bool RemoveState (QuestState *state);
+    const std::unordered_map <int, SharedPointer <QuestState> > &GetStates () const;
 
     class Locked; /// Exception type marker.
     class StateCodesCollision; /// Exception type marker.

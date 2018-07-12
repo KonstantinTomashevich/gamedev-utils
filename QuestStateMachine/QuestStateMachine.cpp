@@ -15,6 +15,12 @@ void QuestStateMachine::Start (int startStateCode)
     current_->OnEnter ();
 }
 
+void QuestStateMachine::Resume (int stateCode)
+{
+    ThrowExceptionIfLocked ();
+    current_ = GetState (stateCode);
+}
+
 void QuestStateMachine::Update (float timeStep)
 {
     ThrowExceptionIfNotLocked ();
@@ -103,6 +109,11 @@ bool QuestStateMachine::RemoveState (QuestState *state)
     {
         return false;
     }
+}
+
+const std::unordered_map <int, SharedPointer <QuestState> > &QuestStateMachine::GetStates () const
+{
+    return states_;
 }
 
 void QuestStateMachine::ThrowExceptionIfLocked () const
