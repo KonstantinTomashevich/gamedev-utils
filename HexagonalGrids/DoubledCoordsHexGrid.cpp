@@ -145,7 +145,15 @@ float DoubledCoordsHexGrid::GetCostBetween (unsigned int fromHash, unsigned int 
 {
     try
     {
-        return costCalculator_ (costModifiers_.at (fromHash), costModifiers_.at (toHash));
+        float fromCost = costModifiers_.at (fromHash);
+        float toCost = costModifiers_.at (toHash);
+
+        if (fromCost < 0.0f || toCost < 0.0f)
+        {
+            return -1.0f;
+        }
+
+        return costCalculator_ (fromCost, toCost);
     }
     catch (std::out_of_range &exception)
     {
@@ -190,7 +198,7 @@ std::pair <float, float> DoubledCoordsHexGrid::GetCellPosition (unsigned int row
     }
     else
     {
-        x = hexRadius_ + w * row * 3.0f / 4.0f;
+        x = hexRadius_ + w * col * 3.0f / 4.0f;
         y = h / 2.0f + h * row / 2.0f;
     }
 
@@ -202,6 +210,49 @@ std::pair <float, float> DoubledCoordsHexGrid::GetCellPosition (unsigned int cel
     unsigned int row, col;
     DecodeCellPosition (cell, row, col);
     return GetCellPosition (row, col);
+}
+
+void DoubledCoordsHexGrid::WorldPositionToCell (float worldX, float worldY, unsigned int &row, unsigned int &col) const
+{
+    float w = type_ == Type::DoubleWidth ? hexRadius_ * (float) std::sqrt (3) : hexRadius_ * 2.0f;
+    float h = type_ == Type::DoubleHeight ? hexRadius_ * (float) std::sqrt (3) : hexRadius_ * 2.0f;
+
+    if (type_ == Type::DoubleWidth)
+    {
+        row = static_cast <unsigned int> (std::round ((worldY - hexRadius_) * 4.0f / (h * 3.0f)));
+        if (row % 2 == 1)
+        {
+            worldX -= w / 2.0f;
+        }
+
+        col = static_cast <unsigned int> (std::round ((worldX - w / 2.0f) / w)) * 2;
+        if (row % 2 == 1)
+        {
+            ++col;
+        }
+    }
+    else
+    {
+        col = static_cast <unsigned int> (std::round ((worldX - hexRadius_) * 4.0f / (w * 3.0f)));
+        if (col % 2 == 1)
+        {
+            worldY -= h / 2.0f;
+        }
+
+        row = static_cast <unsigned int> (std::round ((worldY - h / 2.0f) * 2.0f / h));
+
+        if (col % 2 == 1)
+        {
+            ++row;
+        }
+    }
+}
+
+unsigned int DoubledCoordsHexGrid::WorldPositionToCell (float worldX, float worldY) const
+{
+    unsigned int row, col;
+    WorldPositionToCell (worldX, worldY, row, col);
+    return EncodeCellPosition (row, col);
 }
 
 void DoubledCoordsHexGrid::SetCell (unsigned int row, unsigned int col, float costModifier,

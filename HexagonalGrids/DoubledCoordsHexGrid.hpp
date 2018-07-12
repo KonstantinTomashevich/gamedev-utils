@@ -61,6 +61,9 @@ public:
     std::pair <float, float> GetCellPosition (unsigned int row, unsigned int col) const;
     std::pair <float, float> GetCellPosition (unsigned int cell) const;
 
+    void WorldPositionToCell (float worldX, float worldY, unsigned int &row, unsigned int &col) const;
+    unsigned int WorldPositionToCell (float worldX, float worldY) const;
+
     void SetCell (unsigned int row, unsigned int col, float costModifier, SharedPointer <ReferenceCounted> metadata);
     void SetCell (unsigned int cell, float costModifier, SharedPointer <ReferenceCounted> metadata);
 
