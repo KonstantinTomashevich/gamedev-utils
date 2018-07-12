@@ -1,7 +1,7 @@
 #pragma once
 #include <Urho3D/Engine/Application.h>
 #include <Urho3D/Scene/Scene.h>
-#include <Urho3DDebugCamera/DebugCamera.hpp>
+#include <Urho3DDebugCamera/ThirdPersonDebugCamera.hpp>
 #include <SharedPointer/ReferenceCounted.hpp>
 #include <HexagonalGrids/DoubledCoordsHexGrid.hpp>
 
@@ -23,6 +23,6 @@ private:
     void SetupGrid ();
 
     Urho3D::Scene *scene_;
-    DebugCamera *debugCamera_;
+    ThirdPersonDebugCamera *debugCamera_;
     DoubledCoordsHexGrid *grid_;
 };

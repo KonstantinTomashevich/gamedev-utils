@@ -1,20 +1,15 @@
 #pragma once
+#include "DebugCameraBase.hpp"
 #include <Urho3D/Core/Context.h>
 #include <Urho3D/Scene/Node.h>
 
 typedef int KeyCode;
-typedef int MouseButtonCode;
-
-class DebugCamera : public Urho3D::Object
+class FirstPersonDebugCamera : public DebugCameraBase
 {
-URHO3D_OBJECT (DebugCamera, Object)
+URHO3D_OBJECT (FirstPersonDebugCamera, DebugCameraBase)
 public:
-    DebugCamera (Urho3D::Context *context);
-    virtual ~DebugCamera () = default;
-
-    void SetupCamera (Urho3D::Node *cameraNode);
-    Urho3D::Node *GetCameraNode () const;
-    Urho3D::Node *RaycastNode (int screenX, int screenY);
+    explicit FirstPersonDebugCamera (Urho3D::Context *context);
+    virtual ~FirstPersonDebugCamera () = default;
 
     float GetMoveSpeed () const;
     void SetMoveSpeed (float moveSpeed);
@@ -40,10 +35,10 @@ public:
     KeyCode GetKeyRotateRight () const;
     void SetKeyRotateRight (KeyCode keyRotateRight);
 
-private:
-    void HandleSceneUpdate (Urho3D::StringHash eventType, Urho3D::VariantMap &eventData);
+protected:
+    virtual void HandleSceneUpdate (Urho3D::StringHash eventType, Urho3D::VariantMap &eventData);
 
-    Urho3D::Node *cameraNode_;
+private:
     float moveSpeed_;
     float rotationSpeed_;
 

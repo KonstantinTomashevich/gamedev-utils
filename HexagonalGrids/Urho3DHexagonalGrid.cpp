@@ -66,7 +66,7 @@ void Urho3DHexagonalGrid::SetupLight ()
 
 void Urho3DHexagonalGrid::SetupCamera ()
 {
-    debugCamera_ = new DebugCamera (context_);
+    debugCamera_ = new ThirdPersonDebugCamera (context_);
     Urho3D::Node *cameraNode = scene_->CreateChild ("Camera");
 
     cameraNode->SetPosition ({0.0f, 7.5f, -7.5f});
