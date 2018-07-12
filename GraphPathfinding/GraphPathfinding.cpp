@@ -15,6 +15,13 @@ public:
 bool GraphPathfinding::Dijkstra (GraphAdapter *graph, int beginVertex, int endVertex, float &outputDistance,
         std::vector <int> &outputPath)
 {
+    if (beginVertex == endVertex)
+    {
+        outputDistance = 0.0f;
+        outputPath.push_back (beginVertex);
+        return true;
+    }
+
     std::unordered_map <int, int> comeFrom;
     std::priority_queue <QueueData, std::vector <QueueData>, GreaterComparator> queue;
     queue.push (std::make_pair (beginVertex, std::make_pair (beginVertex, 0.0f)));
@@ -74,6 +81,13 @@ bool GraphPathfinding::Dijkstra (GraphAdapter *graph, int beginVertex, int endVe
 bool GraphPathfinding::AStar (GraphAdapter *graph, int beginVertex, int endVertex, float &outputDistance,
         std::vector <int> &outputPath)
 {
+    if (beginVertex == endVertex)
+    {
+        outputDistance = 0.0f;
+        outputPath.push_back (beginVertex);
+        return true;
+    }
+
     std::unordered_map <int, std::pair <int, float> > comeFrom; // vertex : (comeFromVertex, cost)
     std::priority_queue <QueueData, std::vector <QueueData>, GreaterComparator> queue;
 
