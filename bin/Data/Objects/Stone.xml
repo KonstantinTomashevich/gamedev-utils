@@ -1,0 +1,7 @@
+<node id="16777216">
+	<attribute name="Name" value="Stone"/>
+	<component id="16777216" type="StaticModel">
+		<attribute name="Model" value="Model;Models/Stone.mdl"/>
+		<attribute name="Material" value="Material;Materials/StoneMaterial.xml"/>
+	</component>
+</node>
