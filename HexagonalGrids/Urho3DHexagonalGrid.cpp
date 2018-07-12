@@ -4,9 +4,13 @@
 
 #include <Urho3D/Graphics/Light.h>
 #include <Urho3D/Graphics/Octree.h>
+#include <Urho3D/Graphics/StaticModel.h>
+#include <Urho3D/Graphics/Model.h>
 
 #include <Urho3D/Resource/ResourceCache.h>
 #include <Urho3D/Resource/XMLFile.h>
+#include <GraphPathfinding/GraphPathfinding.hpp>
+#include <Urho3D/Scene/SceneEvents.h>
 
 URHO3D_DEFINE_APPLICATION_MAIN (Urho3DHexagonalGrid)
 class ReferenceCountedString : public ReferenceCounted
@@ -19,7 +23,16 @@ public:
 };
 
 Urho3DHexagonalGrid::Urho3DHexagonalGrid (Urho3D::Context *context) :
-        Urho3D::Application (context)
+        Urho3D::Application (context),
+        scene_ (nullptr),
+        ball_ (nullptr),
+        debugCamera_ (nullptr),
+        grid_ (nullptr),
+
+        moving_ (false),
+        currentWayointIndex_ (0),
+        waypoints_ (),
+        waypointsSpheres_ ()
 {
 
 }
@@ -43,8 +56,15 @@ void Urho3DHexagonalGrid::Start ()
     scene_ = new Urho3D::Scene (context_);
     SetupLight ();
     SetupCamera ();
+
     LoadGrid ();
     SetupGrid ();
+
+    ball_ = CreateBall ();
+    Teleport (grid_->EncodeCellPosition (0, 0), ball_);
+
+    SubscribeToEvent (Urho3D::E_MOUSEBUTTONUP, URHO3D_HANDLER (Urho3DHexagonalGrid, HandleMouseClick));
+    SubscribeToEvent (scene_, Urho3D::E_SCENEUPDATE, URHO3D_HANDLER (Urho3DHexagonalGrid, HandleSceneUpdate));
 }
 
 void Urho3DHexagonalGrid::Stop ()
@@ -53,6 +73,7 @@ void Urho3DHexagonalGrid::Stop ()
     scene_->Clear ();
     delete scene_;
     delete debugCamera_;
+    delete grid_;
 }
 
 void Urho3DHexagonalGrid::SetupLight ()
@@ -113,5 +134,102 @@ void Urho3DHexagonalGrid::SetupGrid ()
                 )->GetRoot (),
                 {position.first, 0.0f, position.second}, rotation
         );
+    }
+}
+
+Urho3D::Node *Urho3DHexagonalGrid::CreateBall () const
+{
+    auto *resourceCache = context_->GetSubsystem <Urho3D::ResourceCache> ();
+    Urho3D::Node *ball = scene_->CreateChild ("Ball");
+
+    auto *model = ball->CreateComponent <Urho3D::StaticModel> ();
+    model->SetModel (resourceCache->GetResource <Urho3D::Model> ("Models/Sphere.mdl"));
+    return ball;
+}
+
+void Urho3DHexagonalGrid::HandleMouseClick (Urho3D::StringHash eventType, Urho3D::VariantMap &eventData)
+{
+    int mouseButton = eventData [Urho3D::MouseButtonUp::P_BUTTON].GetInt ();
+    auto *input = context_->GetSubsystem <Urho3D::Input> ();
+
+    Urho3D::IntVector2 mousePosition = input->GetMousePosition ();
+    Urho3D::RayQueryResult raycastResult = debugCamera_->RaycastSingle (mousePosition.x_, mousePosition.y_);
+    unsigned int cell = grid_->WorldPositionToCell (raycastResult.position_.x_, raycastResult.position_.z_);
+    ResetMovement ();
+
+    if (mouseButton == Urho3D::MOUSEB_LEFT)
+    {
+        Teleport (cell, ball_);
+    }
+    else if (mouseButton == Urho3D::MOUSEB_RIGHT)
+    {
+        SetupMovement (cell);
+    }
+}
+
+void Urho3DHexagonalGrid::HandleSceneUpdate (Urho3D::StringHash eventType, Urho3D::VariantMap &eventData)
+{
+    if (moving_)
+    {
+        float timeStep = eventData [Urho3D::SceneUpdate::P_TIMESTEP].GetFloat ();
+        if (currentWayointIndex_ >= waypoints_.size ())
+        {
+            ResetMovement ();
+            return;
+        }
+
+        std::pair <float, float> waypoint = grid_->GetCellPosition (waypoints_ [currentWayointIndex_]);
+        Urho3D::Vector3 delta = Urho3D::Vector3 (waypoint.first, 1.0f, waypoint.second) - ball_->GetPosition ();
+
+        if (delta.Length () > 0.05f)
+        {
+            ball_->Translate (delta * (MOVE_SPEED / delta.Length ()) * timeStep, Urho3D::TS_WORLD);
+        }
+        else
+        {
+            Teleport (waypoints_ [currentWayointIndex_], ball_);
+            ++currentWayointIndex_;
+        }
+    }
+}
+
+void Urho3DHexagonalGrid::ResetMovement ()
+{
+    moving_ = false;
+    for (auto &sphere : waypointsSpheres_)
+    {
+        sphere->Remove ();
+    }
+
+    waypointsSpheres_.clear ();
+    waypoints_.clear ();
+}
+
+void Urho3DHexagonalGrid::Teleport (unsigned int cell, Urho3D::Node *node) const
+{
+    std::pair <float, float> cellPosition = grid_->GetCellPosition (cell);
+    node->SetPosition ({cellPosition.first, 1.0f, cellPosition.second});
+}
+
+void Urho3DHexagonalGrid::SetupMovement (unsigned int cell)
+{
+    auto *resourceCache = context_->GetSubsystem <Urho3D::ResourceCache> ();
+    float distance;
+
+    unsigned int currentCell = grid_->WorldPositionToCell (ball_->GetPosition ().x_, ball_->GetPosition ().z_);
+    Teleport (currentCell, ball_);
+
+    if (GraphPathfinding::AStar (grid_, currentCell, cell, distance, waypoints_))
+    {
+        moving_ = true;
+        currentWayointIndex_ = 1;
+
+        for (auto &waypoint : waypoints_)
+        {
+            Urho3D::Node *ball = CreateBall ();
+            ball->SetScale (0.5f);
+            Teleport (waypoint, ball);
+            waypointsSpheres_.push_back (ball);
+        }
     }
 }

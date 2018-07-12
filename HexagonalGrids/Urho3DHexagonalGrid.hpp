@@ -17,12 +17,29 @@ public:
     virtual void Stop ();
 
 private:
+    const float MOVE_SPEED = 1.0f;
+
     void SetupLight ();
     void SetupCamera ();
     void LoadGrid ();
+
     void SetupGrid ();
+    Urho3D::Node *CreateBall () const;
+
+    void HandleMouseClick (Urho3D::StringHash eventType, Urho3D::VariantMap &eventData);
+    void HandleSceneUpdate (Urho3D::StringHash eventType, Urho3D::VariantMap &eventData);
+
+    void ResetMovement ();
+    void Teleport (unsigned int cell, Urho3D::Node *node) const;
+    void SetupMovement (unsigned int cell);
 
     Urho3D::Scene *scene_;
+    Urho3D::Node *ball_;
     ThirdPersonDebugCamera *debugCamera_;
     DoubledCoordsHexGrid *grid_;
+
+    bool moving_;
+    unsigned int currentWayointIndex_;
+    std::vector <int> waypoints_;
+    std::vector <Urho3D::Node *> waypointsSpheres_;
 };
