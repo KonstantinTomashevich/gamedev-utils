@@ -1,0 +1,57 @@
+<map type="DW" rows="7" cols="14" radius="1.0">
+    <hex row="0" col="0" cost="-1.0" prefab="Objects/WaterHex.xml"/>
+    <hex row="0" col="2" cost="-1.0" prefab="Objects/WaterHex.xml"/>
+    <hex row="0" col="4" cost="-1.0" prefab="Objects/WaterHex.xml"/>
+    <hex row="0" col="6" cost="-1.0" prefab="Objects/WaterHex.xml"/>
+    <hex row="0" col="8" cost="-1.0" prefab="Objects/WaterHex.xml"/>
+    <hex row="0" col="10" cost="-1.0" prefab="Objects/WaterHex.xml"/>
+    <hex row="0" col="12" cost="-1.0" prefab="Objects/WaterHex.xml"/>
+
+    <hex row="1" col="1" cost="-1.0" prefab="Objects/WaterHex.xml"/>
+    <hex row="1" col="3" cost="-1.0" prefab="Objects/SandHexWithStones.xml"/>
+    <hex row="1" col="5" cost="1.0" prefab="Objects/SandHex.xml"/>
+    <hex row="1" col="7" cost="1.0" prefab="Objects/SandHex.xml"/>
+    <hex row="1" col="9" cost="-1.0" prefab="Objects/SandHexWithStones.xml"/>
+    <hex row="1" col="11" cost="-1.0" prefab="Objects/SandHexWithStones.xml"/>
+    <hex row="1" col="13" cost="-1.0" prefab="Objects/WaterHex.xml"/>
+
+    <hex row="2" col="0" cost="-1.0" prefab="Objects/WaterHex.xml"/>
+    <hex row="2" col="2" cost="-1.0" prefab="Objects/SandHexWithStones.xml"/>
+    <hex row="2" col="4" cost="1.0" prefab="Objects/GrassHex.xml"/>
+    <hex row="2" col="6" cost="-1.0" prefab="Objects/GrassHexWithStones.xml"/>
+    <hex row="2" col="8" cost="1.0" prefab="Objects/GrassHex.xml"/>
+    <hex row="2" col="10" cost="1.0" prefab="Objects/SandHex.xml"/>
+    <hex row="2" col="12" cost="-1.0" prefab="Objects/WaterHex.xml"/>
+
+    <hex row="3" col="1" cost="-1.0" prefab="Objects/WaterHex.xml"/>
+    <hex row="3" col="3" cost="1.0" prefab="Objects/SandHex.xml"/>
+    <hex row="3" col="5" cost="1.0" prefab="Objects/GrassHex.xml"/>
+    <hex row="3" col="7" cost="-1.0" prefab="Objects/GrassHexWithTree1.xml"/>
+    <hex row="3" col="9" cost="-1.0" prefab="Objects/GrassHexWithTree2.xml"/>
+    <hex row="3" col="11" cost="-1.0" prefab="Objects/SandHexWithStones.xml"/>
+    <hex row="3" col="13" cost="-1.0" prefab="Objects/WaterHex.xml"/>
+
+    <hex row="4" col="0" cost="-1.0" prefab="Objects/WaterHex.xml"/>
+    <hex row="4" col="2" cost="1.0" prefab="Objects/SandHex.xml"/>
+    <hex row="4" col="4" cost="-1.0" prefab="Objects/GrassHexWithTree2.xml"/>
+    <hex row="4" col="6" cost="-1.0" prefab="Objects/GrassHexWithTree1.xml"/>
+    <hex row="4" col="8" cost="1.0" prefab="Objects/GrassHex.xml"/>
+    <hex row="4" col="10" cost="-1.0" prefab="Objects/SandHexWithStones.xml"/>
+    <hex row="4" col="12" cost="-1.0" prefab="Objects/WaterHex.xml"/>
+
+    <hex row="5" col="1" cost="-1.0" prefab="Objects/WaterHex.xml"/>
+    <hex row="5" col="3" cost="1.0" prefab="Objects/SandHex.xml"/>
+    <hex row="5" col="5" cost="-1.0" prefab="Objects/SandHexWithStones.xml"/>
+    <hex row="5" col="7" cost="-1.0" prefab="Objects/SandHexWithStones.xml"/>
+    <hex row="5" col="9" cost="-1.0" prefab="Objects/SandHexWithStones.xml"/>
+    <hex row="5" col="11" cost="1.0" prefab="Objects/SandHex.xml"/>
+    <hex row="5" col="13" cost="-1.0" prefab="Objects/WaterHex.xml"/>
+
+    <hex row="6" col="0" cost="-1.0" prefab="Objects/WaterHex.xml"/>
+    <hex row="6" col="2" cost="-1.0" prefab="Objects/WaterHex.xml"/>
+    <hex row="6" col="4" cost="-1.0" prefab="Objects/WaterHex.xml"/>
+    <hex row="6" col="6" cost="-1.0" prefab="Objects/WaterHex.xml"/>
+    <hex row="6" col="8" cost="-1.0" prefab="Objects/WaterHex.xml"/>
+    <hex row="6" col="10" cost="-1.0" prefab="Objects/WaterHex.xml"/>
+    <hex row="6" col="12" cost="-1.0" prefab="Objects/WaterHex.xml"/>
+</map>
