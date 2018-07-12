@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<node id="3">
+	<attribute name="Is Enabled" value="true" />
+	<attribute name="Name" value="Hex" />
+	<attribute name="Tags" />
+	<attribute name="Position" value="0 0 0" />
+	<attribute name="Rotation" value="0.70711 0 0.70711 0" />
+	<attribute name="Scale" value="1 1 1" />
+	<attribute name="Variables" />
+	<component type="StaticModel" id="16777228">
+		<attribute name="Model" value="Model;Models/Hex.mdl" />
+		<attribute name="Material" value="Material;Materials/SandHex.xml" />
+	</component>
+	<node id="4">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="Stone" />
+		<attribute name="Tags" />
+		<attribute name="Position" value="0.294091 0 0.196609" />
+		<attribute name="Rotation" value="0.965926 0 0.258819 0" />
+		<attribute name="Scale" value="0.5 0.5 0.5" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16777229">
+			<attribute name="Model" value="Model;Models/Stone.mdl" />
+			<attribute name="Material" value="Material;Materials/StoneMaterial.xml" />
+		</component>
+	</node>
+	<node id="5">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="Stone" />
+		<attribute name="Tags" />
+		<attribute name="Position" value="-0.274162 0 -0.240709" />
+		<attribute name="Rotation" value="0.707107 0 0.707107 0" />
+		<attribute name="Scale" value="0.5 0.5 0.5" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16777230">
+			<attribute name="Model" value="Model;Models/Stone.mdl" />
+			<attribute name="Material" value="Material;Materials/StoneMaterial.xml" />
+		</component>
+	</node>
+</node>
