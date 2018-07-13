@@ -153,7 +153,13 @@ void Urho3DHexagonalGrid::HandleMouseClick (Urho3D::StringHash eventType, Urho3D
     auto *input = context_->GetSubsystem <Urho3D::Input> ();
 
     Urho3D::IntVector2 mousePosition = input->GetMousePosition ();
-    Urho3D::RayQueryResult raycastResult = debugCamera_->RaycastSingle (mousePosition.x_, mousePosition.y_);
+    Urho3D::RayQueryResult raycastResult;
+
+    if (!debugCamera_->RaycastSingle (mousePosition.x_, mousePosition.y_, raycastResult))
+    {
+        return;
+    }
+
     unsigned int cell = grid_->WorldPositionToCell (raycastResult.position_.x_, raycastResult.position_.z_);
     ResetMovement ();
 

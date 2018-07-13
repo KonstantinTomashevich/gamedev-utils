@@ -12,7 +12,7 @@ public:
 
     void SetupCamera (Urho3D::Node *cameraNode);
     Urho3D::Node *GetCameraNode () const;
-    Urho3D::RayQueryResult RaycastSingle (int screenX, int screenY) const;
+    bool RaycastSingle (int screenX, int screenY, Urho3D::RayQueryResult &output) const;
     Urho3D::Node *RaycastNode (int screenX, int screenY) const;
 
     // Exception classes.

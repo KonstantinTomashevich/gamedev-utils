@@ -33,7 +33,7 @@ Urho3D::Node *DebugCameraBase::GetCameraNode () const
     return cameraNode_;
 }
 
-Urho3D::RayQueryResult DebugCameraBase::RaycastSingle (int screenX, int screenY) const
+bool DebugCameraBase::RaycastSingle (int screenX, int screenY, Urho3D::RayQueryResult &output) const
 {
     if (cameraNode_ == nullptr)
     {
@@ -51,10 +51,27 @@ Urho3D::RayQueryResult DebugCameraBase::RaycastSingle (int screenX, int screenY)
 
     auto *octree = camera->GetScene ()->GetComponent <Urho3D::Octree> ();
     octree->RaycastSingle (query);
-    return queryResult[0];
+
+    if (queryResult.Empty ())
+    {
+        return false;
+    }
+    else
+    {
+        output = queryResult[0];
+        return true;
+    }
 }
 
 Urho3D::Node *DebugCameraBase::RaycastNode (int screenX, int screenY) const
 {
-    return RaycastSingle (screenX, screenY).node_;
+    Urho3D::RayQueryResult result;
+    if (RaycastSingle (screenX, screenY, result))
+    {
+        return result.node_;
+    }
+    else
+    {
+        return nullptr;
+    }
 }
