@@ -30,6 +30,10 @@ if (EnableUrho3DUtils)
 endif ()
 
 include_directories (${CMAKE_CURRENT_SOURCE_DIR})
+if (IncludeUniversalException)
+    add_subdirectory (UniversalException)
+endif ()
+
 if (IncludeQuestStateMachine)
     add_subdirectory (QuestStateMachine)
 endif ()
