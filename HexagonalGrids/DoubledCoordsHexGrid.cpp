@@ -1,6 +1,7 @@
 #include "DoubledCoordsHexGrid.hpp"
 #include <UniversalException/UniversalException.hpp>
 #include <cmath>
+#include <algorithm>
 
 const std::vector <std::pair <int, int> > DoubledCoordsHexGrid::DoubleWidthAvailableMoves = {{0,  2},
                                                                                              {1,  1},
