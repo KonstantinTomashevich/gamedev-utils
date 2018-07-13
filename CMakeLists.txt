@@ -85,3 +85,8 @@ endif ()
 if (IncludeUrho3DDebugCamera)
     add_subdirectory (Urho3DDebugCamera)
 endif ()
+
+if (EnableUrho3DUtils)
+    install (DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/bin/CoreData" DESTINATION bin)
+    install (DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/bin/Data" DESTINATION bin)
+endif ()
