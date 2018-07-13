@@ -4,8 +4,6 @@
 #include <Urho3D/Container/Ptr.h>
 #include <Urho3D/Container/Vector.h>
 
-namespace ActivitiesApplication
-{
 //@ASBindGen Class ObjectType=Ref
 class ActivitiesApplication : public Urho3D::Application
 {
@@ -25,9 +23,13 @@ public:
     //@ASBindGen Function OverrideName=get_activitiesCount
     unsigned GetActivitiesCount () const;
     //@ASBindGen Function AddRef_arg-1
-    Activity *GetActivityByIndex (int index);
+    Activity *GetActivityByIndex (unsigned int index);
     //@ASBindGen Function
     void StopAllActivitiesNextFrame ();
+
+    // Exception classes.
+    class IndexOutOfBounds;
+    class NullActivityPassed;
 
 private:
     void UpdateActivities (Urho3D::StringHash eventType, Urho3D::VariantMap &eventData);
@@ -36,4 +38,3 @@ private:
     Urho3D::Vector <Urho3D::SharedPtr <Activity> > activitiesToSetup_;
     Urho3D::Vector <Urho3D::SharedPtr <Activity> > activitiesToStop_;
 };
-}

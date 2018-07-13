@@ -1,8 +1,6 @@
 #pragma once
 #include <Urho3D/Core/Object.h>
 
-namespace ActivitiesApplication
-{
 class ActivitiesApplication;
 //@ASBindGen Class ObjectType=Ref
 class Activity : public Urho3D::Object
@@ -24,7 +22,10 @@ public:
     //@ASBindGen Function
     virtual void Stop () = 0;
 
+    // Exception classes.
+    class NullContextPassed;
+    class NullApplicationPassed;
+
 private:
     ActivitiesApplication *application_;
 };
-}
