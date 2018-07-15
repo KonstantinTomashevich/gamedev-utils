@@ -2,6 +2,8 @@
 #include <UniversalException/UniversalException.hpp>
 #include <cmath>
 #include <algorithm>
+#include <unordered_set>
+#include <queue>
 
 const std::vector <std::pair <int, int> > DoubledCoordsHexGrid::DoubleWidthAvailableMoves = {{0,  2},
                                                                                              {1,  1},
@@ -24,11 +26,13 @@ float DoubledCoordsHexGrid::MedianCostCalculator (float from, float to)
 
 DoubledCoordsHexGrid::DoubledCoordsHexGridNeighborsIterator::DoubledCoordsHexGridNeighborsIterator (
         const DoubledCoordsHexGrid *ownerGrid, unsigned int currentRow,
-        unsigned int currentCol) :
+        unsigned int currentCol, bool ignoreImpassable) :
+
+        ownerGrid_ (ownerGrid),
         moveIndex_ (0),
         currentRow_ (currentRow),
         currentCol_ (currentCol),
-        ownerGrid_ (ownerGrid)
+        ignoreImpassable_ (ignoreImpassable)
 {
 
 }
@@ -83,7 +87,7 @@ bool DoubledCoordsHexGrid::DoubledCoordsHexGridNeighborsIterator::Valid ()
         unsigned int newHash = ownerGrid_->EncodeCellPosition (newRow, newCol);
 
         if (newRow < ownerGrid_->GetMaxRow () && newCol < ownerGrid_->GetMaxCol () &&
-                ownerGrid_->GetCostBetween (currentHash, newHash) >= 0.0f)
+                (!ignoreImpassable_ || ownerGrid_->GetCostBetween (currentHash, newHash) >= 0.0f))
         {
             break;
         }
@@ -110,7 +114,15 @@ SimpleIterator <VertexOutcomingConnection> *DoubledCoordsHexGrid::GetOutcomingCo
 {
     unsigned int row, col;
     DecodeCellPosition (vertex, row, col);
-    return new DoubledCoordsHexGridNeighborsIterator (this, row, col);
+    return new DoubledCoordsHexGridNeighborsIterator (this, row, col, true);
+}
+
+SimpleIterator <VertexOutcomingConnection> *
+DoubledCoordsHexGrid::GetOutcomingConnections (unsigned int vertex, bool ignoreImpassable) const
+{
+    unsigned int row, col;
+    DecodeCellPosition (vertex, row, col);
+    return new DoubledCoordsHexGridNeighborsIterator (this, row, col, ignoreImpassable);
 }
 
 float DoubledCoordsHexGrid::HeuristicDistance (int beginVertex, int endVertex) const
@@ -198,6 +210,58 @@ DoubledCoordsHexGrid::HexesOnLine (unsigned int fromRow, unsigned int fromCol, u
         unsigned int toCol) const
 {
     return HexesOnLine (EncodeCellPosition (fromRow, fromCol), EncodeCellPosition (toRow, toCol));
+}
+
+std::vector <unsigned int> DoubledCoordsHexGrid::Range (unsigned int center, unsigned int range) const
+{
+    std::unordered_set <unsigned int> blocked;
+    std::queue <unsigned int> queue;
+
+    unsigned int currentRange = 0;
+    queue.push (center);
+    blocked.insert (center);
+
+    while (currentRange <= range && !queue.empty ())
+    {
+        unsigned int levelSize = queue.size ();
+        for (unsigned int index = 0; index < levelSize; ++index)
+        {
+            unsigned int cell = queue.front ();
+            queue.pop ();
+
+
+            unsigned int row, col;
+            DecodeCellPosition (cell, row, col);
+
+            DoubledCoordsHexGridNeighborsIterator iterator (this, row, col, false);
+            while (iterator.Valid ())
+            {
+                if (blocked.count (iterator.Get ().target) == 0)
+                {
+                    queue.push (iterator.Get ().target);
+                    blocked.insert (cell);
+                }
+                iterator.Increment ();
+            }
+        }
+
+        ++currentRange;
+    }
+
+    std::vector <unsigned int> result;
+    result.reserve (blocked.size ());
+
+    for (auto &cell : blocked)
+    {
+        result.push_back (cell);
+    }
+    return result;
+}
+
+std::vector <unsigned int>
+DoubledCoordsHexGrid::Range (unsigned int centerRow, unsigned int centerCol, unsigned int range) const
+{
+    return Range (EncodeCellPosition (centerRow, centerCol), range);
 }
 
 DoubledCoordsHexGrid::Type DoubledCoordsHexGrid::GetType () const

@@ -18,7 +18,7 @@ public:
     {
     public:
         DoubledCoordsHexGridNeighborsIterator (const DoubledCoordsHexGrid *ownerGrid,
-                unsigned int currentRow, unsigned int currentCol);
+                unsigned int currentRow, unsigned int currentCol, bool ignoreImpassable);
         virtual ~DoubledCoordsHexGridNeighborsIterator () = default;
 
         virtual void Increment ();
@@ -29,10 +29,11 @@ public:
         class Invalid;
 
     private:
+        const DoubledCoordsHexGrid *ownerGrid_;
         unsigned int moveIndex_;
         unsigned int currentRow_;
         unsigned int currentCol_;
-        const DoubledCoordsHexGrid *ownerGrid_;
+        bool ignoreImpassable_;
     };
 
     enum class Type
@@ -46,6 +47,8 @@ public:
     virtual ~DoubledCoordsHexGrid () = default;
 
     virtual SimpleIterator <VertexOutcomingConnection> *GetOutcomingConnections (int vertex) const;
+    SimpleIterator <VertexOutcomingConnection> *GetOutcomingConnections (unsigned int vertex,
+            bool ignoreImpassable) const;
     virtual float HeuristicDistance (int beginVertex, int endVertex) const;
 
     unsigned int EncodeCellPosition (unsigned int row, unsigned int col) const;
@@ -56,6 +59,9 @@ public:
     std::vector <unsigned int> HexesOnLine (unsigned int from, unsigned int to) const;
     std::vector <unsigned int> HexesOnLine (unsigned int fromRow, unsigned int fromCol,
             unsigned int toRow, unsigned int toCol) const;
+
+    std::vector <unsigned int> Range (unsigned int center, unsigned int range) const;
+    std::vector <unsigned int> Range (unsigned int centerRow, unsigned int centerCol, unsigned int range) const;
 
     Type GetType () const;
     unsigned int GetMaxRow () const;
