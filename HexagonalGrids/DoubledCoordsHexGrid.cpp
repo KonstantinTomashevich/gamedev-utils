@@ -128,13 +128,15 @@ float DoubledCoordsHexGrid::HeuristicDistance (int beginVertex, int endVertex) c
 
 unsigned int DoubledCoordsHexGrid::EncodeCellPosition (unsigned int row, unsigned int col) const
 {
-    return row * maxCol_ + col;
+    unsigned int multiplier = std::max (maxRow_, maxCol_);
+    return row * multiplier + col;
 }
 
 void DoubledCoordsHexGrid::DecodeCellPosition (unsigned int vertex, unsigned int &row, unsigned int &col) const
 {
-    col = vertex % maxCol_;
-    row = vertex / maxCol_;
+    unsigned int multiplier = std::max (maxRow_, maxCol_);
+    col = vertex % multiplier;
+    row = vertex / multiplier;
 }
 
 const std::vector <std::pair <int, int> > *DoubledCoordsHexGrid::GetAvailableMovesList () const
@@ -164,6 +166,38 @@ float DoubledCoordsHexGrid::GetCostBetween (unsigned int fromHash, unsigned int 
                         exception.what ()
         );
     }
+}
+
+std::vector <unsigned int> DoubledCoordsHexGrid::HexesOnLine (unsigned int from, unsigned int to) const
+{
+    std::vector <unsigned int> result;
+    result.push_back (from);
+    auto distance = static_cast <unsigned int> (HeuristicDistance (from, to));
+
+    std::pair <float, float> fromPosition = GetCellPosition (from);
+    std::pair <float, float> toPosition = GetCellPosition (to);
+
+    float deltaX = (toPosition.first - fromPosition.first) / distance;
+    float deltaY = (toPosition.second - fromPosition.second) / distance;
+
+    float x = fromPosition.first;
+    float y = fromPosition.second;
+
+    for (unsigned int iteration = 0; iteration < distance; ++iteration)
+    {
+        x += deltaX;
+        y += deltaY;
+        result.push_back (WorldPositionToCell (x, y));
+    }
+
+    return result;
+}
+
+std::vector <unsigned int>
+DoubledCoordsHexGrid::HexesOnLine (unsigned int fromRow, unsigned int fromCol, unsigned int toRow,
+        unsigned int toCol) const
+{
+    return HexesOnLine (EncodeCellPosition (fromRow, fromCol), EncodeCellPosition (toRow, toCol));
 }
 
 DoubledCoordsHexGrid::Type DoubledCoordsHexGrid::GetType () const

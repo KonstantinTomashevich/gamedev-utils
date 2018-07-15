@@ -53,6 +53,10 @@ public:
     const std::vector <std::pair <int, int> > *GetAvailableMovesList () const;
     float GetCostBetween (unsigned int fromHash, unsigned int toHash) const;
 
+    std::vector <unsigned int> HexesOnLine (unsigned int from, unsigned int to) const;
+    std::vector <unsigned int> HexesOnLine (unsigned int fromRow, unsigned int fromCol,
+            unsigned int toRow, unsigned int toCol) const;
+
     Type GetType () const;
     unsigned int GetMaxRow () const;
     unsigned int GetMaxCol () const;
