@@ -8,7 +8,6 @@
 #include <Urho3D/Scene/Scene.h>
 #include <Urho3D/Scene/SceneEvents.h>
 #include <Urho3D/IO/Log.h>
-#include <Urho3D/Input/Input.h>
 
 ThirdPersonDebugCamera::ThirdPersonDebugCamera (Urho3D::Context *context) :
         DebugCameraBase (context),
@@ -48,82 +47,82 @@ void ThirdPersonDebugCamera::SetRotationSpeed (float rotationSpeed)
     rotationSpeed_ = rotationSpeed;
 }
 
-KeyCode ThirdPersonDebugCamera::GetKeyForward () const
+Urho3D::Key ThirdPersonDebugCamera::GetKeyForward () const
 {
     return keyForward_;
 }
 
-void ThirdPersonDebugCamera::SetKeyForward (KeyCode keyForward)
+void ThirdPersonDebugCamera::SetKeyForward (Urho3D::Key keyForward)
 {
     keyForward_ = keyForward;
 }
 
-KeyCode ThirdPersonDebugCamera::GetKeyBackward () const
+Urho3D::Key ThirdPersonDebugCamera::GetKeyBackward () const
 {
     return keyBackward_;
 }
 
-void ThirdPersonDebugCamera::SetKeyBackward (KeyCode keyBackward)
+void ThirdPersonDebugCamera::SetKeyBackward (Urho3D::Key keyBackward)
 {
     keyBackward_ = keyBackward;
 }
 
-KeyCode ThirdPersonDebugCamera::GetKeyUp () const
+Urho3D::Key ThirdPersonDebugCamera::GetKeyUp () const
 {
     return keyUp_;
 }
 
-void ThirdPersonDebugCamera::SetKeyUp (KeyCode keyUp)
+void ThirdPersonDebugCamera::SetKeyUp (Urho3D::Key keyUp)
 {
     keyUp_ = keyUp;
 }
 
-KeyCode ThirdPersonDebugCamera::GetKeyDown () const
+Urho3D::Key ThirdPersonDebugCamera::GetKeyDown () const
 {
     return keyDown_;
 }
 
-void ThirdPersonDebugCamera::SetKeyDown (KeyCode keyDown)
+void ThirdPersonDebugCamera::SetKeyDown (Urho3D::Key keyDown)
 {
     keyDown_ = keyDown;
 }
 
-KeyCode ThirdPersonDebugCamera::GetKeyLeft () const
+Urho3D::Key ThirdPersonDebugCamera::GetKeyLeft () const
 {
     return keyLeft_;
 }
 
-void ThirdPersonDebugCamera::SetKeyLeft (KeyCode keyLeft)
+void ThirdPersonDebugCamera::SetKeyLeft (Urho3D::Key keyLeft)
 {
     keyLeft_ = keyLeft;
 }
 
-KeyCode ThirdPersonDebugCamera::GetKeyRight () const
+Urho3D::Key ThirdPersonDebugCamera::GetKeyRight () const
 {
     return keyRight_;
 }
 
-void ThirdPersonDebugCamera::SetKeyRight (KeyCode keyRight)
+void ThirdPersonDebugCamera::SetKeyRight (Urho3D::Key keyRight)
 {
     keyRight_ = keyRight;
 }
 
-KeyCode ThirdPersonDebugCamera::GetKeyRotateLeft () const
+Urho3D::Key ThirdPersonDebugCamera::GetKeyRotateLeft () const
 {
     return keyRotateLeft_;
 }
 
-void ThirdPersonDebugCamera::SetKeyRotateLeft (KeyCode keyRotateLeft)
+void ThirdPersonDebugCamera::SetKeyRotateLeft (Urho3D::Key keyRotateLeft)
 {
     keyRotateLeft_ = keyRotateLeft;
 }
 
-KeyCode ThirdPersonDebugCamera::GetKeyRotateRight () const
+Urho3D::Key ThirdPersonDebugCamera::GetKeyRotateRight () const
 {
     return keyRotateRight_;
 }
 
-void ThirdPersonDebugCamera::SetKeyRotateRight (KeyCode keyRotateRight)
+void ThirdPersonDebugCamera::SetKeyRotateRight (Urho3D::Key keyRotateRight)
 {
     keyRotateRight_ = keyRotateRight;
 }

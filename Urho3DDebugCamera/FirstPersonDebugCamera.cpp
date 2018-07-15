@@ -8,7 +8,6 @@
 #include <Urho3D/Scene/Scene.h>
 #include <Urho3D/Scene/SceneEvents.h>
 #include <Urho3D/IO/Log.h>
-#include <Urho3D/Input/Input.h>
 
 FirstPersonDebugCamera::FirstPersonDebugCamera (Urho3D::Context *context) :
         DebugCameraBase (context),
@@ -45,62 +44,62 @@ void FirstPersonDebugCamera::SetRotationSpeed (float rotationSpeed)
     rotationSpeed_ = rotationSpeed;
 }
 
-KeyCode FirstPersonDebugCamera::GetKeyForward () const
+Urho3D::Key FirstPersonDebugCamera::GetKeyForward () const
 {
     return keyForward_;
 }
 
-void FirstPersonDebugCamera::SetKeyForward (KeyCode keyForward)
+void FirstPersonDebugCamera::SetKeyForward (Urho3D::Key keyForward)
 {
     keyForward_ = keyForward;
 }
 
-KeyCode FirstPersonDebugCamera::GetKeyBackward () const
+Urho3D::Key FirstPersonDebugCamera::GetKeyBackward () const
 {
     return keyBackward_;
 }
 
-void FirstPersonDebugCamera::SetKeyBackward (KeyCode keyBackward)
+void FirstPersonDebugCamera::SetKeyBackward (Urho3D::Key keyBackward)
 {
     keyBackward_ = keyBackward;
 }
 
-KeyCode FirstPersonDebugCamera::GetKeyRotateUp () const
+Urho3D::Key FirstPersonDebugCamera::GetKeyRotateUp () const
 {
     return keyRotateUp_;
 }
 
-void FirstPersonDebugCamera::SetKeyRotateUp (KeyCode keyRotateUp)
+void FirstPersonDebugCamera::SetKeyRotateUp (Urho3D::Key keyRotateUp)
 {
     keyRotateUp_ = keyRotateUp;
 }
 
-KeyCode FirstPersonDebugCamera::GetKeyRotateDown () const
+Urho3D::Key FirstPersonDebugCamera::GetKeyRotateDown () const
 {
     return keyRotateDown_;
 }
 
-void FirstPersonDebugCamera::SetKeyRotateDown (KeyCode keyRotateDown)
+void FirstPersonDebugCamera::SetKeyRotateDown (Urho3D::Key keyRotateDown)
 {
     keyRotateDown_ = keyRotateDown;
 }
 
-KeyCode FirstPersonDebugCamera::GetKeyRotateLeft () const
+Urho3D::Key FirstPersonDebugCamera::GetKeyRotateLeft () const
 {
     return keyRotateLeft_;
 }
 
-void FirstPersonDebugCamera::SetKeyRotateLeft (KeyCode keyRotateLeft)
+void FirstPersonDebugCamera::SetKeyRotateLeft (Urho3D::Key keyRotateLeft)
 {
     keyRotateLeft_ = keyRotateLeft;
 }
 
-KeyCode FirstPersonDebugCamera::GetKeyRotateRight () const
+Urho3D::Key FirstPersonDebugCamera::GetKeyRotateRight () const
 {
     return keyRotateRight_;
 }
 
-void FirstPersonDebugCamera::SetKeyRotateRight (KeyCode keyRotateRight)
+void FirstPersonDebugCamera::SetKeyRotateRight (Urho3D::Key keyRotateRight)
 {
     keyRotateRight_ = keyRotateRight;
 }

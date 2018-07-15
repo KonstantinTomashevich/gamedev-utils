@@ -2,8 +2,8 @@
 #include "DebugCameraBase.hpp"
 #include <Urho3D/Core/Context.h>
 #include <Urho3D/Scene/Node.h>
+#include <Urho3D/Input/Input.h>
 
-typedef int KeyCode;
 class FirstPersonDebugCamera : public DebugCameraBase
 {
 URHO3D_OBJECT (FirstPersonDebugCamera, DebugCameraBase)
@@ -17,23 +17,23 @@ public:
     float GetRotationSpeed () const;
     void SetRotationSpeed (float rotationSpeed);
 
-    KeyCode GetKeyForward () const;
-    void SetKeyForward (KeyCode keyForward);
+    Urho3D::Key GetKeyForward () const;
+    void SetKeyForward (Urho3D::Key keyForward);
 
-    KeyCode GetKeyBackward () const;
-    void SetKeyBackward (KeyCode keyBackward);
+    Urho3D::Key GetKeyBackward () const;
+    void SetKeyBackward (Urho3D::Key keyBackward);
 
-    KeyCode GetKeyRotateUp () const;
-    void SetKeyRotateUp (KeyCode keyRotateUp);
+    Urho3D::Key GetKeyRotateUp () const;
+    void SetKeyRotateUp (Urho3D::Key keyRotateUp);
 
-    KeyCode GetKeyRotateDown () const;
-    void SetKeyRotateDown (KeyCode keyRotateDown);
+    Urho3D::Key GetKeyRotateDown () const;
+    void SetKeyRotateDown (Urho3D::Key keyRotateDown);
 
-    KeyCode GetKeyRotateLeft () const;
-    void SetKeyRotateLeft (KeyCode keyRotateLeft);
+    Urho3D::Key GetKeyRotateLeft () const;
+    void SetKeyRotateLeft (Urho3D::Key keyRotateLeft);
 
-    KeyCode GetKeyRotateRight () const;
-    void SetKeyRotateRight (KeyCode keyRotateRight);
+    Urho3D::Key GetKeyRotateRight () const;
+    void SetKeyRotateRight (Urho3D::Key keyRotateRight);
 
 protected:
     virtual void HandleSceneUpdate (Urho3D::StringHash eventType, Urho3D::VariantMap &eventData);
@@ -42,11 +42,11 @@ private:
     float moveSpeed_;
     float rotationSpeed_;
 
-    KeyCode keyForward_;
-    KeyCode keyBackward_;
-    KeyCode keyRotateUp_;
-    KeyCode keyRotateDown_;
-    KeyCode keyRotateLeft_;
-    KeyCode keyRotateRight_;
+    Urho3D::Key keyForward_;
+    Urho3D::Key keyBackward_;
+    Urho3D::Key keyRotateUp_;
+    Urho3D::Key keyRotateDown_;
+    Urho3D::Key keyRotateLeft_;
+    Urho3D::Key keyRotateRight_;
 };
 
