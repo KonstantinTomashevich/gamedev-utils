@@ -156,6 +156,20 @@ const std::vector <std::pair <int, int> > *DoubledCoordsHexGrid::GetAvailableMov
     return type_ == Type::DoubleWidth ? &DoubleWidthAvailableMoves : &DoubleHeightAvailableMoves;
 }
 
+float DoubledCoordsHexGrid::GetRectWidth () const
+{
+    return static_cast <float> (type_ == Type::DoubleWidth ?
+            sqrt (3) * 0.5f * hexRadius_ * (maxCol_ + 1) :
+            1.5f * hexRadius_ * maxCol_ + 0.75f * hexRadius_);
+}
+
+float DoubledCoordsHexGrid::GetRectHeight () const
+{
+    return static_cast <float> (type_ == Type::DoubleHeight ?
+            sqrt (3) * 0.5f * hexRadius_ * (maxRow_ + 1) :
+            1.5f * hexRadius_ * maxRow_ + 0.75f * hexRadius_);
+}
+
 float DoubledCoordsHexGrid::GetCostBetween (unsigned int fromHash, unsigned int toHash) const
 {
     try
