@@ -327,37 +327,26 @@ std::pair <float, float> DoubledCoordsHexGrid::GetCellPosition (unsigned int cel
 
 void DoubledCoordsHexGrid::WorldPositionToCell (float worldX, float worldY, unsigned int &row, unsigned int &col) const
 {
+    // Firstly, find axial coordinates.
     float w = type_ == Type::DoubleWidth ? hexRadius_ * (float) std::sqrt (3) : hexRadius_ * 2.0f;
-    float h = type_ == Type::DoubleHeight ? hexRadius_ * (float) std::sqrt (3) : hexRadius_ * 2.0f;
+    worldX = (worldX - w / 2) / w;
 
+    double temp1 = worldY / hexRadius_;
+    double temp2 = floor (worldX + temp1);
+
+    double r = floor ((floor (temp1 - worldX) + temp2) / 3);
+    double q = floor ((floor (2 * worldX + 1) + temp2) / 3) - r;
+
+    // And now we can convert it to our doubled coordinates.
     if (type_ == Type::DoubleWidth)
     {
-        row = static_cast <unsigned int> (std::round ((worldY - hexRadius_) * 4.0f / (h * 3.0f)));
-        if (row % 2 == 1)
-        {
-            worldX -= w / 2.0f;
-        }
-
-        col = static_cast <unsigned int> (std::round ((worldX - w / 2.0f) / w)) * 2;
-        if (row % 2 == 1)
-        {
-            ++col;
-        }
+        row = static_cast <unsigned int> (r);
+        col = static_cast <unsigned int> (2 * q + r);
     }
     else
     {
-        col = static_cast <unsigned int> (std::round ((worldX - hexRadius_) * 4.0f / (w * 3.0f)));
-        if (col % 2 == 1)
-        {
-            worldY -= h / 2.0f;
-        }
-
-        row = static_cast <unsigned int> (std::round ((worldY - h / 2.0f) * 2.0f / h));
-
-        if (col % 2 == 1)
-        {
-            ++row;
-        }
+        row = static_cast <unsigned int> (2 * r + q);
+        col = static_cast <unsigned int> (q);
     }
 }
 
