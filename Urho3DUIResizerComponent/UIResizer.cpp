@@ -192,6 +192,11 @@ void UIResizer::ProcessElementLayout (Urho3D::UIElement *element,
         int maxSecondary = 0;
         for (Urho3D::UIElement *&child : children)
         {
+            if (!child->IsVisible ())
+            {
+                continue;
+            }
+
             child->SetPosition (currentX, currentY);
             (vertical ? currentY : currentX) += (vertical ? child->GetHeight () : child->GetWidth ()) + spacing;
             maxSecondary = std::max (maxSecondary, vertical ? child->GetWidth () : child->GetHeight ());
