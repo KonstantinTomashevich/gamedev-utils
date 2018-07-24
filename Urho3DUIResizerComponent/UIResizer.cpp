@@ -30,27 +30,32 @@ void UIResizer::RegisterObject (Urho3D::Context *context)
 
 void UIResizer::Update (float timeStep)
 {
-    Urho3D::Graphics *graphics = context_->GetSubsystem <Urho3D::Graphics> ();
+    auto *graphics = context_->GetSubsystem <Urho3D::Graphics> ();
     if (continuousUpdate_ || lastScreenSize_.x_ != graphics->GetWidth () || lastScreenSize_.y_ != graphics->GetHeight ())
     {
         RecalculateUI ();
-
     }
 }
 
 void UIResizer::RecalculateUI ()
 {
-    Urho3D::Graphics *graphics = context_->GetSubsystem <Urho3D::Graphics> ();
-    lastScreenSize_.x_ = graphics->GetWidth ();
-    lastScreenSize_.y_ = graphics->GetHeight ();
-
-    Urho3D::UI *ui = context_->GetSubsystem <Urho3D::UI> ();
+    auto *ui = context_->GetSubsystem <Urho3D::UI> ();
     Urho3D::UIElement *rootElement = ui->GetRoot ();
 
     if (scanRootElement_ != "UIRoot")
     {
         rootElement = rootElement->GetChild (scanRootElement_, true);
     }
+
+    RecalculateUI (rootElement);
+}
+
+void UIResizer::RecalculateUI (Urho3D::UIElement *rootElement)
+{
+    auto *ui = context_->GetSubsystem <Urho3D::UI> ();
+    auto *graphics = context_->GetSubsystem <Urho3D::Graphics> ();
+    lastScreenSize_.x_ = graphics->GetWidth ();
+    lastScreenSize_.y_ = graphics->GetHeight ();
 
     if (rootElement != nullptr && rootElement->HasTag ("UIResizer"))
     {
@@ -109,8 +114,8 @@ void UIResizer::ProcessElement (Urho3D::UIElement *element, Urho3D::HashMap <Urh
     element->SetPosition (Urho3D::FloorToInt (vX * dependenciesValues [element->GetVar ("XDep").GetString ()]),
                           Urho3D::FloorToInt (vY * dependenciesValues [element->GetVar ("YDep").GetString ()]));
 
-    Urho3D::Text *asText = dynamic_cast <Urho3D::Text *> (element);
-    Urho3D::LineEdit *asLineEdit = dynamic_cast <Urho3D::LineEdit *> (element);
+    auto *asText = dynamic_cast <Urho3D::Text *> (element);
+    auto *asLineEdit = dynamic_cast <Urho3D::LineEdit *> (element);
 
     if (asText != nullptr || asLineEdit != nullptr)
     {

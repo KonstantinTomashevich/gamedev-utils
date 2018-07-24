@@ -14,6 +14,7 @@ public:
 
     virtual void Update (float timeStep);
     void RecalculateUI ();
+    void RecalculateUI (Urho3D::UIElement *rootElement);
 
     bool IsContinuousUpdate () const;
     void SetContinuousUpdate (bool continuousUpdate);
