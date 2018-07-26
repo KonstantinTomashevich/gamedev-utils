@@ -130,7 +130,7 @@ void ThirdPersonDebugCamera::SetKeyRotateRight (Urho3D::Key keyRotateRight)
 void ThirdPersonDebugCamera::HandleSceneUpdate (Urho3D::StringHash eventType, Urho3D::VariantMap &eventData)
 {
     Urho3D::Node *cameraNode = GetCameraNode ();
-    if (cameraNode == nullptr)
+    if (!IsEnabled () || cameraNode == nullptr)
     {
         return;
     }

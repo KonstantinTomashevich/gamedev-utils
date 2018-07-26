@@ -10,7 +10,8 @@
 
 DebugCameraBase::DebugCameraBase (Urho3D::Context *context) :
         Urho3D::Object (context),
-        cameraNode_ (nullptr)
+        cameraNode_ (nullptr),
+        enabled_ (true)
 {
 
 }
@@ -74,4 +75,14 @@ Urho3D::Node *DebugCameraBase::RaycastNode (int screenX, int screenY) const
     {
         return nullptr;
     }
+}
+
+bool DebugCameraBase::IsEnabled () const
+{
+    return enabled_;
+}
+
+void DebugCameraBase::SetEnabled (bool enabled)
+{
+    enabled_ = enabled;
 }

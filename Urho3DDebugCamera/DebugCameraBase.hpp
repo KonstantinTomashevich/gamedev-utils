@@ -15,6 +15,9 @@ public:
     bool RaycastSingle (int screenX, int screenY, Urho3D::RayQueryResult &output) const;
     Urho3D::Node *RaycastNode (int screenX, int screenY) const;
 
+    bool IsEnabled () const;
+    void SetEnabled (bool enabled);
+
     // Exception classes.
     class CameraNotFound;
 
@@ -23,4 +26,5 @@ protected:
 
 private:
     Urho3D::Node *cameraNode_;
+    bool enabled_;
 };
