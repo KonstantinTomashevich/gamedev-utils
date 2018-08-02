@@ -79,6 +79,12 @@ public:
 
     void SetCell (unsigned int row, unsigned int col, float costModifier, SharedPointer <ReferenceCounted> metadata);
     void SetCell (unsigned int cell, float costModifier, SharedPointer <ReferenceCounted> metadata);
+    
+    void SetCellCostModifier (unsigned int row, unsigned int col, float costModifier);
+    void SetCellCostModifier (unsigned int cell, float costModifier);
+
+    void SetCellMetadata (unsigned int row, unsigned int col, SharedPointer <ReferenceCounted> metadata);
+    void SetCellMetadata (unsigned int cell, SharedPointer <ReferenceCounted> metadata);
 
     float GetCellCostModifier (unsigned int row, unsigned int col) const;
     float GetCellCostModifier (unsigned int cell) const;

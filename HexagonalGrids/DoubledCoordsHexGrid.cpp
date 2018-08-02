@@ -365,7 +365,28 @@ void DoubledCoordsHexGrid::SetCell (unsigned int row, unsigned int col, float co
 
 void DoubledCoordsHexGrid::SetCell (unsigned int cell, float costModifier, SharedPointer <ReferenceCounted> metadata)
 {
+    SetCellCostModifier (cell, costModifier);
+    SetCellMetadata (cell, metadata);
+}
+
+void DoubledCoordsHexGrid::SetCellCostModifier (unsigned int row, unsigned int col, float costModifier)
+{
+    SetCellCostModifier (EncodeCellPosition (row, col), costModifier);
+}
+
+void DoubledCoordsHexGrid::SetCellCostModifier (unsigned int cell, float costModifier)
+{
     costModifiers_[cell] = costModifier;
+}
+
+void
+DoubledCoordsHexGrid::SetCellMetadata (unsigned int row, unsigned int col, SharedPointer <ReferenceCounted> metadata)
+{
+    SetCellMetadata (EncodeCellPosition (row, col), metadata);
+}
+
+void DoubledCoordsHexGrid::SetCellMetadata (unsigned int cell, SharedPointer <ReferenceCounted> metadata)
+{
     // unordered_map operates with objects in a "so dirty" way, so we must increment ref counter.
     metadata->AddReference ();
     metadata_[cell] = metadata;
