@@ -34,7 +34,8 @@ Urho3D::Node *DebugCameraBase::GetCameraNode () const
     return cameraNode_;
 }
 
-bool DebugCameraBase::RaycastSingle (int screenX, int screenY, Urho3D::RayQueryResult &output) const
+bool
+DebugCameraBase::RaycastSingle (int screenX, int screenY, Urho3D::RayQueryResult &output, unsigned char drawableFlags) const
 {
     if (cameraNode_ == nullptr)
     {
@@ -48,7 +49,7 @@ bool DebugCameraBase::RaycastSingle (int screenX, int screenY, Urho3D::RayQueryR
             screenY * 1.0f / graphics->GetHeight ());
 
     Urho3D::PODVector <Urho3D::RayQueryResult> queryResult;
-    Urho3D::RayOctreeQuery query (queryResult, ray);
+    Urho3D::RayOctreeQuery query (queryResult, ray, Urho3D::RAY_TRIANGLE, Urho3D::M_INFINITY, drawableFlags);
 
     auto *octree = camera->GetScene ()->GetComponent <Urho3D::Octree> ();
     octree->RaycastSingle (query);
@@ -64,10 +65,10 @@ bool DebugCameraBase::RaycastSingle (int screenX, int screenY, Urho3D::RayQueryR
     }
 }
 
-Urho3D::Node *DebugCameraBase::RaycastNode (int screenX, int screenY) const
+Urho3D::Node *DebugCameraBase::RaycastNode (int screenX, int screenY, unsigned char drawableFlags) const
 {
     Urho3D::RayQueryResult result;
-    if (RaycastSingle (screenX, screenY, result))
+    if (RaycastSingle (screenX, screenY, result, drawableFlags))
     {
         return result.node_;
     }

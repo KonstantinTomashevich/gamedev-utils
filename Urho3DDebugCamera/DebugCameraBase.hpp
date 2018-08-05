@@ -12,8 +12,9 @@ public:
 
     void SetupCamera (Urho3D::Node *cameraNode);
     Urho3D::Node *GetCameraNode () const;
-    bool RaycastSingle (int screenX, int screenY, Urho3D::RayQueryResult &output) const;
-    Urho3D::Node *RaycastNode (int screenX, int screenY) const;
+    bool RaycastSingle (int screenX, int screenY, Urho3D::RayQueryResult &output,
+            unsigned char drawableFlags = Urho3D::DRAWABLE_GEOMETRY) const;
+    Urho3D::Node *RaycastNode (int screenX, int screenY, unsigned char drawableFlags = Urho3D::DRAWABLE_GEOMETRY) const;
 
     bool IsEnabled () const;
     void SetEnabled (bool enabled);
