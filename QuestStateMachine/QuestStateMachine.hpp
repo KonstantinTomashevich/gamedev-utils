@@ -1,3 +1,4 @@
+#pragma once
 #include "QuestState.hpp"
 #include <unordered_map>
 #include <SharedPointer/SharedPointer.hpp>

@@ -1,5 +1,4 @@
 #pragma once
-
 #include "GraphAdapter.hpp"
 #include <functional>
 #include <vector>

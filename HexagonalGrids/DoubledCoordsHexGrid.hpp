@@ -1,5 +1,4 @@
 #pragma once
-
 #include <GraphPathfinding/GraphAdapter.hpp>
 #include <SharedPointer/SharedPointer.hpp>
 #include <SharedPointer/ReferenceCounted.hpp>
