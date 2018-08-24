@@ -173,7 +173,7 @@ void UIResizer::ProcessElementLayout (Urho3D::UIElement *element,
                                       Urho3D::HashMap <Urho3D::StringHash, int> &dependenciesValues) const
 {
     int wDep = dependenciesValues [element->GetVar ("WDep").GetString ()];
-    int hDep = dependenciesValues [element->GetVar ("WDep").GetString ()];
+    int hDep = dependenciesValues [element->GetVar ("HDep").GetString ()];
 
     Urho3D::Variant layoutTypeVar = element->GetVar ("LayoutType");
     if (layoutTypeVar.GetString () == "V" || layoutTypeVar.GetString () == "H")
