@@ -226,7 +226,8 @@ DoubledCoordsHexGrid::HexesOnLine (unsigned int fromRow, unsigned int fromCol, u
     return HexesOnLine (EncodeCellPosition (fromRow, fromCol), EncodeCellPosition (toRow, toCol));
 }
 
-std::vector <unsigned int> DoubledCoordsHexGrid::Range (unsigned int center, unsigned int range) const
+std::vector <unsigned int> DoubledCoordsHexGrid::Range (unsigned int center,
+        unsigned int range, bool ignoreImpassable) const
 {
     std::unordered_set <unsigned int> blocked;
     std::queue <unsigned int> queue;
@@ -247,7 +248,7 @@ std::vector <unsigned int> DoubledCoordsHexGrid::Range (unsigned int center, uns
             unsigned int row, col;
             DecodeCellPosition (cell, row, col);
 
-            DoubledCoordsHexGridNeighborsIterator iterator (this, row, col, false);
+            DoubledCoordsHexGridNeighborsIterator iterator (this, row, col, ignoreImpassable);
             while (iterator.Valid ())
             {
                 if (blocked.count (iterator.Get ().target) == 0)
@@ -272,10 +273,10 @@ std::vector <unsigned int> DoubledCoordsHexGrid::Range (unsigned int center, uns
     return result;
 }
 
-std::vector <unsigned int>
-DoubledCoordsHexGrid::Range (unsigned int centerRow, unsigned int centerCol, unsigned int range) const
+std::vector <unsigned int> DoubledCoordsHexGrid::Range (unsigned int centerRow, unsigned int centerCol,
+        unsigned int range, bool ignoreImpassable) const
 {
-    return Range (EncodeCellPosition (centerRow, centerCol), range);
+    return Range (EncodeCellPosition (centerRow, centerCol), range, ignoreImpassable);
 }
 
 DoubledCoordsHexGrid::Type DoubledCoordsHexGrid::GetType () const
