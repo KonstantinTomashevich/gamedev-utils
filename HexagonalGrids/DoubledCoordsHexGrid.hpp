@@ -62,9 +62,9 @@ public:
     std::vector <unsigned int> HexesOnLine (unsigned int fromRow, unsigned int fromCol,
             unsigned int toRow, unsigned int toCol) const;
 
-    std::vector <unsigned int> Range (unsigned int center, unsigned int range, bool ignoreImpassable = true) const;
+    std::vector <unsigned int> Range (unsigned int center, unsigned int range, bool ignoreImpassable = false) const;
     std::vector <unsigned int> Range (unsigned int centerRow, unsigned int centerCol,
-            unsigned int range, bool ignoreImpassable = true) const;
+            unsigned int range, bool ignoreImpassable = false) const;
 
     Type GetType () const;
     unsigned int GetMaxRow () const;
