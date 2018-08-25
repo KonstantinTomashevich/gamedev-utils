@@ -234,7 +234,6 @@ std::vector <unsigned int> DoubledCoordsHexGrid::Range (unsigned int center,
 
     unsigned int currentRange = 0;
     queue.push (center);
-    blocked.insert (center);
 
     while (currentRange <= range && !queue.empty ())
     {
@@ -244,18 +243,19 @@ std::vector <unsigned int> DoubledCoordsHexGrid::Range (unsigned int center,
             unsigned int cell = queue.front ();
             queue.pop ();
 
-
             unsigned int row, col;
             DecodeCellPosition (cell, row, col);
+            blocked.insert (cell);
 
             DoubledCoordsHexGridNeighborsIterator iterator (this, row, col, ignoreImpassable);
             while (iterator.Valid ())
             {
-                if (blocked.count (iterator.Get ().target) == 0)
+                if (blocked.count (iterator.Get ().target) == 0 &&
+                        (!ignoreImpassable || GetCellCostModifier (iterator.Get ().target) >= 0.0f))
                 {
                     queue.push (iterator.Get ().target);
-                    blocked.insert (cell);
                 }
+
                 iterator.Increment ();
             }
         }
