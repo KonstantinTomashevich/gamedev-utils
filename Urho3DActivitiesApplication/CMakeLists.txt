@@ -9,4 +9,4 @@ install (TARGETS Urho3DActivitiesApplication EXPORT FindUrho3DActivitiesApplicat
         ARCHIVE DESTINATION lib/static CONFIGURATIONS ${CMAKE_BUILD_TYPE}
         )
 install (EXPORT FindUrho3DActivitiesApplication DESTINATION targets)
-install (FILES Activity.hpp ActivitiesApplication.hpp DESTINATION include/Urho3DActivitiesApplication)
+install (FILES Activity.hpp ActivitiesApplication.hpp ModularActivity.hpp DESTINATION include/Urho3DActivitiesApplication)
