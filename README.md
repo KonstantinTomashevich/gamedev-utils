@@ -79,7 +79,7 @@ Urho3D component for `Urho3D::UIElement`s resizing and layouting. Used `Urho3D::
 
 Also `Layout Border` and `Layout Spacing` of `Urho3D::UIElement` are used too (result is 0.001 * value (dep) where dep is HDep or WDep depending on layout type).
 
-## For texts (Urho3D::Text and Urho3D::LineEdit only):
+### For texts (Urho3D::Text and Urho3D::LineEdit only):
 *VTextSize* : float, text size modifier.
 
 *TSDep* : String, dependency for test size, value: "SH" (Screen Height), "SW" (Screen Width), "PW" (Parent Width), "PH" (ParentHeight).
