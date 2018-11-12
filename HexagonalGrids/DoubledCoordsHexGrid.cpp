@@ -138,6 +138,30 @@ float DoubledCoordsHexGrid::HeuristicDistance (int beginVertex, int endVertex) c
             dCol + std::max (0, (dRow - dCol) / 2);
 }
 
+void DoubledCoordsHexGrid::GetEdges (std::vector <GraphEdge> &output) const
+{
+    for (unsigned int row = 0; row < maxRow_; ++row)
+    {
+        for (unsigned int col = 0; col < maxCol_; ++col)
+        {
+            if ((row + col) % 2 == 0)
+            {
+                int vertex = EncodeCellPosition (row, col);
+                SimpleIterator <VertexOutcomingConnection> *iterator = GetOutcomingConnections (vertex);
+
+                while (iterator->Valid ())
+                {
+                    VertexOutcomingConnection connection = iterator->Get ();
+                    iterator->Increment ();
+                    output.push_back ({vertex, connection.target, connection.weight});
+                }
+
+                delete iterator;
+            }
+        }
+    }
+}
+
 unsigned int DoubledCoordsHexGrid::EncodeCellPosition (unsigned int row, unsigned int col) const
 {
     unsigned int multiplier = std::max (maxRow_, maxCol_);

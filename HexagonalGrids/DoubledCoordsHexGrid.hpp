@@ -49,6 +49,7 @@ public:
     SimpleIterator <VertexOutcomingConnection> *GetOutcomingConnections (unsigned int vertex,
             bool ignoreImpassable) const;
     virtual float HeuristicDistance (int beginVertex, int endVertex) const;
+    virtual void GetEdges (std::vector <GraphEdge> &output) const;
 
     unsigned int EncodeCellPosition (unsigned int row, unsigned int col) const;
     void DecodeCellPosition (unsigned int vertex, unsigned int &row, unsigned int &col) const;
