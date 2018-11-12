@@ -1,9 +1,17 @@
 #pragma once
+
 #include <vector>
 
 struct VertexOutcomingConnection
 {
     int target;
+    float weight;
+};
+
+struct GraphEdge
+{
+    int inVertex;
+    int outVertex;
     float weight;
 };
 
@@ -21,4 +29,5 @@ class GraphAdapter
 public:
     virtual SimpleIterator <VertexOutcomingConnection> *GetOutcomingConnections (int vertex) const = 0;
     virtual float HeuristicDistance (int beginVertex, int endVertex) const = 0;
+    virtual void GetEdges (std::vector <GraphEdge> &output) const = 0;
 };

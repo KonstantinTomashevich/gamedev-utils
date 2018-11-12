@@ -51,7 +51,7 @@ bool GraphPathfinding::Dijkstra (GraphAdapter *graph, int beginVertex, int endVe
 
             for (unsigned int index = 0; index < length; ++index)
             {
-                outputPath [length - index - 1] = reversedPath [index];
+                outputPath[length - index - 1] = reversedPath[index];
             }
 
             outputDistance = cost;
@@ -61,7 +61,7 @@ bool GraphPathfinding::Dijkstra (GraphAdapter *graph, int beginVertex, int endVe
         auto comeFromIterator = comeFrom.find (vertex);
         if (comeFromIterator == comeFrom.end ())
         {
-            comeFrom [vertex] = comeFromVertex;
+            comeFrom[vertex] = comeFromVertex;
             SimpleIterator <VertexOutcomingConnection> *neighborsIterator = graph->GetOutcomingConnections (vertex);
 
             while (neighborsIterator->Valid ())
@@ -92,8 +92,8 @@ bool GraphPathfinding::AStar (GraphAdapter *graph, int beginVertex, int endVerte
     std::priority_queue <QueueData, std::vector <QueueData>, GreaterComparator> queue;
 
     queue.push (std::make_pair (beginVertex, std::make_pair (beginVertex, 0.0f)));
-    comeFrom [beginVertex].first = beginVertex;
-    comeFrom [beginVertex].second = 0.0f;
+    comeFrom[beginVertex].first = beginVertex;
+    comeFrom[beginVertex].second = 0.0f;
 
     while (!queue.empty ())
     {
@@ -120,7 +120,7 @@ bool GraphPathfinding::AStar (GraphAdapter *graph, int beginVertex, int endVerte
 
             for (unsigned int index = 0; index < length; ++index)
             {
-                outputPath [length - index - 1] = reversedPath [index];
+                outputPath[length - index - 1] = reversedPath[index];
             }
 
             return true;
@@ -141,8 +141,8 @@ bool GraphPathfinding::AStar (GraphAdapter *graph, int beginVertex, int endVerte
                 if (neighborComeFromIterator == comeFrom.end () ||
                         neighborComeFromIterator->second.second > cost + connection.weight)
                 {
-                    comeFrom [connection.target].first = vertex;
-                    comeFrom [connection.target].second = cost + connection.weight;
+                    comeFrom[connection.target].first = vertex;
+                    comeFrom[connection.target].second = cost + connection.weight;
 
                     queue.push (std::make_pair (connection.target, std::make_pair (
                             vertex, graph->HeuristicDistance (connection.target, endVertex))));
@@ -154,4 +154,74 @@ bool GraphPathfinding::AStar (GraphAdapter *graph, int beginVertex, int endVerte
     }
 
     return false;
+}
+
+bool GraphPathfinding::FordBellman (GraphAdapter *graph, int beginVertex, int endVertex, float &outputDistance,
+        std::vector <int> &outputPath)
+{
+    std::unordered_map <int, std::pair <float, int> > scanData = FordBellmanScan (graph, beginVertex);
+    auto iterator = scanData.find (endVertex);
+    if (iterator == scanData.end ())
+    {
+        return false;
+    }
+
+    outputDistance = iterator->second.first;
+    int vertex = endVertex;
+
+    std::vector <int> reversedPath;
+    while (vertex != beginVertex)
+    {
+        reversedPath.push_back (vertex);
+        vertex = scanData[vertex].second;
+    }
+
+    reversedPath.push_back (beginVertex);
+    unsigned int length = reversedPath.size ();
+    outputPath.resize (length);
+
+    for (unsigned int index = 0; index < length; ++index)
+    {
+        outputPath[length - index - 1] = reversedPath[index];
+    }
+
+    return true;
+}
+
+std::unordered_map <int, std::pair <float, int> >
+GraphPathfinding::FordBellmanScan (GraphAdapter *graph, int beginVertex)
+{
+    std::unordered_map <int, std::pair <float, int> > scanData;
+    std::vector <GraphEdge> egdes;
+    graph->GetEdges (egdes);
+
+    std::pair <float, int> &beginPair = scanData[beginVertex];
+    beginPair.first = 0.0f;
+    beginPair.second = beginVertex;
+
+    while (true)
+    {
+        bool anyChanges = false;
+        for (auto &edge : egdes)
+        {
+            if (scanData.count (edge.inVertex))
+            {
+                float newValue = scanData[edge.inVertex].first + edge.weight;
+                auto outIterator = scanData.find (edge.outVertex);
+
+                if (outIterator == scanData.end () || outIterator->second.first > newValue)
+                {
+                    std::pair <float, int> &pair = scanData[edge.outVertex];
+                    pair.first = newValue;
+                    pair.second = edge.inVertex;
+                    anyChanges = true;
+                }
+            }
+        }
+
+        if (!anyChanges)
+        {
+            return scanData;
+        }
+    }
 }
